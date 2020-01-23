@@ -1,0 +1,108 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <p-button label="Firmaları Göster" styleClass="ui-button-info" (click)="stateFirmaEkleme = false"></p-button>
+    </div>
+    <div class="col">
+      <p-button label="Yeni Firma Ekle" styleClass="ui-button-info" (click)="stateFirmaEkleme = true; submitButtonText = 'Firma Ekle';" ></p-button>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="container-fluid" *ngIf="stateFirmaEkleme === false">
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">Firma İsmi</th>
+      <th scope="col">Firma Adresi</th>
+      <th scope="col">Çalışan Sayısı</th>
+      <th scope="col">Otobüs Sayısı</th>
+      <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let f of firmalar">
+      <td>{{f.firmaIsmi}}</td>
+      <td>{{f.firmaAdresi}}</td>
+      <td>{{f.calisanSayisi}}</td>
+      <td>{{f.otobusSayisi}}</td>
+      <td>
+        <div class="d-flex flex-row bd-highlight mb-3">
+          <div class="p-2"><button class="form-delete" (click)="onDelete(f.id)"><i class="pi pi-trash"></i></button></div>
+          <div class="p-2"><p-button icon="pi pi-search" (click)="onDisplay(f.id)"></p-button></div>
+          <div class="p-2"><p-button icon="pi pi-cloud-upload" (click)="onUpload(f.id)"></p-button></div>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="container" *ngIf="stateFirmaEkleme === true">
+    <form [formGroup]="firmaForm" (ngSubmit)="onSubmit()">
+
+      <div class="form-group">
+        <label for="FirmaIsmiControlInput1">Firma İsmi</label>
+        <input type="text" class="form-control" id="FirmaIsmiControlInput1" placeholder="Firma İsmi" formControlName="firmaIsmi">
+      </div>
+
+      <div class="form-group">
+        <label for="FirmaAdresiControlInput1">Firma Adresi</label>
+        <input type="text" class="form-control" id="FirmaAdresiControlInput1" placeholder="Firma Adresi" formControlName="firmaAdresi">
+      </div>
+
+      <div class="form-group">
+        <label for="CalisanSayisiControlInput1">Çalışan Sayısı</label>
+        <input type="text" class="form-control" id="CalisanSayisiControlInput1" placeholder="Çalısan Sayısı" formControlName="calisanSayisi">
+      </div>
+
+      <div class="form-group">
+        <label for="OtobusSayisiControlInput1">Otobüs Sayısı</label>
+        <input type="text" class="form-control" id="OtobusSayisiControlInput1" placeholder="Otobüs Sayısı" formControlName="otobusSayisi">
+      </div>
+
+      <button type="submit" class="btn btn-primary">{{submitButtonText}}</button>
+    </form>
+  </div>
+
+<p-dialog header="Firma Ayrıntıları" [(visible)]="displayFirma" [style]="{width: '350px', minWidth:'200px'}" resizable="true">
+  <div clas="container-fluid" *ngIf="displayingFirma">
+    <div class="row firma-row">
+      <div class="col">
+        <b>Firma İsmi</b>
+      </div>
+      <div class="col">
+        {{displayingFirma.firmaIsmi}}
+      </div>
+    </div>
+
+    <div class="row kitap-row">
+      <div class="col">
+        <b>Firma Adresi</b>
+      </div>
+      <div class="col">
+        {{displayingFirma.firmaAdresi}}
+      </div>
+    </div>
+
+    <div class="row kitap-row">
+      <div class="col">
+        <b>Çalısan Sayısı</b>
+      </div>
+      <div class="col">
+        {{displayingFirma.calisanSayisi}}
+      </div>
+    </div>
+
+    <div class="row kitap-row">
+      <div class="col">
+        <b>Otobüs Sayısı</b>
+      </div>
+      <div class="col">
+        {{displayingFirma.otobusSayisi}}
+      </div>
+    </div>
+</div>
+</p-dialog>

@@ -1,0 +1,92 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <p-button label="Otobüsleri Göster" styleClass="ui-button-info" (click)="stateOtobusEkleme = false"></p-button>
+    </div>
+    <div class="col">
+      <p-button label="Yeni Otobüs Ekle" styleClass="ui-button-info" (click)="stateOtobusEkleme = true; submitButtonText = 'Otobüs Ekle';" ></p-button>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="container-fluid" *ngIf="stateOtobusEkleme === false">
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">Plaka</th>
+      <th scope="col">Otobus Modeli</th>
+      <th scope="col">Koltuk Sayısı</th>
+      <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let o of otobusler">
+      <td>{{o.plaka}}</td>
+      <td>{{o.otobusModeli}}</td>
+      <td>{{o.koltukSayisi}}</td>
+      <td>
+        <div class="d-flex flex-row bd-highlight mb-3">
+          <div class="p-2"><button class="form-delete" (click)="onDelete(o.id)"><i class="pi pi-trash"></i></button></div>
+          <div class="p-2"><p-button icon="pi pi-search" (click)="onDisplay(o.id)"></p-button></div>
+          <div class="p-2"><p-button icon="pi pi-cloud-upload" (click)="onUpload(o.id)"></p-button></div>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="container" *ngIf="stateOtobusEkleme === true">
+  <form [formGroup]="otobusForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+      <label for="PlakaControlInput1">Firma İsmi</label>
+      <input type="text" class="form-control" id="PlakaControlInput1" placeholder="Plaka" formControlName="plaka">
+    </div>
+
+    <div class="form-group">
+      <label for="OtobusModeliControlInput1">Otobüs Modeli</label>
+      <input type="text" class="form-control" id="OtobusModeliControlInput1" placeholder="Otobus Modeli" formControlName="otobusModeli">
+    </div>
+
+    <div class="form-group">
+      <label for="KoltukSayisiControlInput1">Çalışan Sayısı</label>
+      <input type="text" class="form-control" id="KoltukSayisiControlInput1" placeholder="Koltuk Sayısı" formControlName="koltukSayisi">
+    </div>
+
+    <button type="submit" class="btn btn-primary">{{submitButtonText}}</button>
+  </form>
+</div>
+
+<p-dialog header="Firma Ayrıntıları" [(visible)]="displayOtobus" [style]="{width: '350px', minWidth:'200px'}" resizable="true">
+  <div clas="container-fluid" *ngIf="displayingOtobus">
+    <div class="row firma-row">
+      <div class="col">
+        <b>Firma İsmi</b>
+      </div>
+      <div class="col">
+        {{displayingOtobus.plaka}}
+      </div>
+    </div>
+
+    <div class="row kitap-row">
+      <div class="col">
+        <b>Otobus Modeli</b>
+      </div>
+      <div class="col">
+        {{displayingOtobus.otobusModeli}}
+      </div>
+    </div>
+
+    <div class="row kitap-row">
+      <div class="col">
+        <b>Koltuk Sayısı</b>
+      </div>
+      <div class="col">
+        {{displayingOtobus.koltukSayisi}}
+      </div>
+    </div>
+  </div>
+</p-dialog>

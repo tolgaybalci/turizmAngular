@@ -1,0 +1,125 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <p-button label="Muavinleri Göster" styleClass="ui-button-info" (click)="stateMuavinEkleme = false"></p-button>
+    </div>
+    <div class="col">
+      <p-button label="Yeni Muavin Ekle" styleClass="ui-button-info" (click)="stateMuavinEkleme = true; submitButtonText = 'Firma Ekle';" ></p-button>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="container-fluid" *ngIf="stateMuavinEkleme === false">
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">Muavin İsmi</th>
+      <th scope="col">Muavin Soyismi</th>
+      <th scope="col">Muavin Yaşı</th>
+      <th scope="col">Muavin Doğum Yılı</th>
+      <th scope="col">Muavin Maas</th>
+      <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let m of muavinler">
+      <td>{{m.muavinIsmi}}</td>
+      <td>{{m.muavinSoyIsmi}}</td>
+      <td>{{m.muavinYasi}}</td>
+      <td>{{m.muavinDogumYili}}</td>
+      <td>{{m.mavinMaas}}</td>
+      <td>
+        <div class="d-flex flex-row bd-highlight mb-3">
+          <div class="p-2"><button class="form-delete" (click)="onDelete(m.id)"><i class="pi pi-trash"></i></button></div>
+          <div class="p-2"><p-button icon="pi pi-search" (click)="onDisplay(m.id)"></p-button></div>
+          <div class="p-2"><p-button icon="pi pi-cloud-upload" (click)="onUpload(m.id)"></p-button></div>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="container" *ngIf="stateMuavinEkleme === true">
+  <form [formGroup]="muavinForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+      <label for="MuavinIsmiControlInput1">Muavin İsmi</label>
+      <input type="text" class="form-control" id="MuavinIsmiControlInput1" placeholder="Muavin İsmi" formControlName="muavinIsmi">
+    </div>
+
+    <div class="form-group">
+      <label for="MuavinSoyIsmiControlInput1">Muavin Soyismi</label>
+      <input type="text" class="form-control" id="MuavinSoyIsmiControlInput1" placeholder="Muavin Soyismi" formControlName="muavinSoyIsmi">
+    </div>
+
+    <div class="form-group">
+      <label for="MuavinYasiControlInput1">Muavin Yaşi</label>
+      <input type="text" class="form-control" id="MuavinYasiControlInput1" placeholder="Muavin Yaşı" formControlName="muavinYasi">
+    </div>
+
+      <div class="form-row">
+        Muavin Doğum Tarihi:<p-calendar [(ngModel)]="date1" formControlName="muavinDogumYili"></p-calendar>
+      </div>
+
+      <div class="form-group">
+        <label for="MuavinMaasControlInput1">Muavin Maaşı</label>
+        <input type="text" class="form-control" id="MuavinMaasControlInput1" placeholder="Muavin Maaşı" formControlName="muavinMaas">
+      </div>
+
+    <button type="submit" class="btn btn-primary">{{submitButtonText}}</button>
+  </form>
+</div>
+
+<p-dialog header="Muavin Ayrıntıları" [(visible)]="displayMuavin" [style]="{width: '350px', minWidth:'200px'}" resizable="true">
+  <div clas="container-fluid" *ngIf="displayingMuavin">
+    <div class="row firma-row">
+      <div class="col">
+        <b>Muavin İsmi</b>
+      </div>
+      <div class="col">
+        {{displayingMuavin.muavinIsmi}}
+      </div>
+    </div>
+
+    <div class="row kitap-row">
+      <div class="col">
+        <b>Muavin Soyismi</b>
+      </div>
+      <div class="col">
+        {{displayingMuavin.muavinSoyIsmi}}
+      </div>
+    </div>
+
+    <div class="row kitap-row">
+      <div class="col">
+        <b>Muavin Yaşı</b>
+      </div>
+      <div class="col">
+        {{displayingMuavin.muavinYasi}}
+      </div>
+    </div>
+
+    <div class="row kitap-row">
+      <div class="col">
+        <b>Muavin Doğum Tarihi</b>
+      </div>
+      <div class="col">
+        {{displayingMuavin.muavinDogumYili}}
+      </div>
+    </div>
+
+    <div class="row kitap-row">
+      <div class="col">
+        <b>Muavin Maaş</b>
+      </div>
+      <div class="col">
+        {{displayingMuavin.muavinMaas}}
+      </div>
+    </div>
+
+  </div>
+</p-dialog>
+

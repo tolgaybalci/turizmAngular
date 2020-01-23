@@ -1,0 +1,125 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <p-button label="Soforleri Göster" styleClass="ui-button-info" (click)="stateSoforEkleme = false"></p-button>
+    </div>
+    <div class="col">
+      <p-button label="Yeni Sofor Ekle" styleClass="ui-button-info" (click)="stateSoforEkleme = true; submitButtonText = 'Sofor Ekle';" ></p-button>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="container-fluid" *ngIf="stateSoforEkleme === false">
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">Sofor İsmi</th>
+      <th scope="col">Sofor Soyismi</th>
+      <th scope="col">Sofor Yaşı</th>
+      <th scope="col">Sofor Doğum Yılı</th>
+      <th scope="col">Sofor Maas</th>
+      <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let s of soforler">
+      <td>{{s.soforIsmi}}</td>
+      <td>{{s.soforSoyismi}}</td>
+      <td>{{s.soforYasi}}</td>
+      <td>{{s.soforDogumYili}}</td>
+      <td>{{s.soforMaas}}</td>
+      <td>
+        <div class="d-flex flex-row bd-highlight mb-3">
+          <div class="p-2"><button class="form-delete" (click)="onDelete(s.id)"><i class="pi pi-trash"></i></button></div>
+          <div class="p-2"><p-button icon="pi pi-search" (click)="onDisplay(s.id)"></p-button></div>
+          <div class="p-2"><p-button icon="pi pi-cloud-upload" (click)="onUpload(s.id)"></p-button></div>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="container" *ngIf="stateSoforEkleme === true">
+  <form [formGroup]="soforForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+      <label for="SoforIsmiControlInput1">Sofor İsmi</label>
+      <input type="text" class="form-control" id="SoforIsmiControlInput1" placeholder="Sofor İsmi" formControlName="soforIsmi">
+    </div>
+
+    <div class="form-group">
+      <label for="SoforSoyismiControlInput1">Muavin Soyismi</label>
+      <input type="text" class="form-control" id="SoforSoyismiControlInput1" placeholder="Sofor Soyismi" formControlName="soforSoyismi">
+    </div>
+
+    <div class="form-group">
+      <label for="SoforYasiControlInput1">Muavin Yaşi</label>
+      <input type="text" class="form-control" id="SoforYasiControlInput1" placeholder="Sofor Yaşı" formControlName="soforYasi">
+    </div>
+
+    <div class="form-row">
+      Sofor Doğum Tarihi:<p-calendar [(ngModel)]="date1" formControlName="soforDogumYili"></p-calendar>
+    </div>
+
+    <div class="form-group">
+      <label for="SoforMaasControlInput1">Sofor Maaşı</label>
+      <input type="text" class="form-control" id="SoforMaasControlInput1" placeholder="Sofor Maaşı" formControlName="soforMaasi">
+    </div>
+
+    <button type="submit" class="btn btn-primary">{{submitButtonText}}</button>
+  </form>
+</div>
+
+<p-dialog header="Sofor Ayrıntıları" [(visible)]="displaySofor" [style]="{width: '350px', minWidth:'200px'}" resizable="true">
+  <div clas="container-fluid" *ngIf="displayingSofor">
+    <div class="row firma-row">
+      <div class="col">
+        <b>Sofor İsmi</b>
+      </div>
+      <div class="col">
+        {{displayingSofor.soforIsmi}}
+      </div>
+    </div>
+
+    <div class="row kitap-row">
+      <div class="col">
+        <b>Sofor Soyismi</b>
+      </div>
+      <div class="col">
+        {{displayingSofor.soforSoyismi}}
+      </div>
+    </div>
+
+    <div class="row kitap-row">
+      <div class="col">
+        <b>Sofor Yaşı</b>
+      </div>
+      <div class="col">
+        {{displayingSofor.soforYasi}}
+      </div>
+    </div>
+
+    <div class="row kitap-row">
+      <div class="col">
+        <b>Muavin Doğum Tarihi</b>
+      </div>
+      <div class="col">
+        {{displayingSofor.soforDogumYili}}
+      </div>
+    </div>
+
+    <div class="row kitap-row">
+      <div class="col">
+        <b>Sofor Maaşı</b>
+      </div>
+      <div class="col">
+        {{displayingSofor.soforMaasi}}
+      </div>
+    </div>
+
+  </div>
+</p-dialog>
+

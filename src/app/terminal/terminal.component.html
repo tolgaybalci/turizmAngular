@@ -1,0 +1,108 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <p-button label="Terminalleri Göster" styleClass="ui-button-info" (click)="stateTerminalEkleme = false"></p-button>
+    </div>
+    <div class="col">
+      <p-button label="Yeni Terminal Ekle" styleClass="ui-button-info" (click)="stateTerminalEkleme = true; submitButtonText = 'Firma Ekle';" ></p-button>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="container-fluid" *ngIf="stateTerminalEkleme === false">
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">Terminal Şehri</th>
+      <th scope="col">Terminal Adresi</th>
+      <th scope="col">Yolcu Kapasitesi</th>
+      <th scope="col">Koordinatları</th>
+      <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let t of terminaller">
+      <td>{{t.firmaIsmi}}</td>
+      <td>{{t.firmaAdresi}}</td>
+      <td>{{t.calisanSayisi}}</td>
+      <td>{{t.otobusSayisi}}</td>
+      <td>
+        <div class="d-flex flex-row bd-highlight mb-3">
+          <div class="p-2"><button class="form-delete" (click)="onDelete(t.id)"><i class="pi pi-trash"></i></button></div>
+          <div class="p-2"><p-button icon="pi pi-search" (click)="onDisplay(t.id)"></p-button></div>
+          <div class="p-2"><p-button icon="pi pi-cloud-upload" (click)="onUpload(t.id)"></p-button></div>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="container" *ngIf="stateTerminalEkleme === true">
+  <form [formGroup]="terminalForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+      <label for="TerminalSehriControlInput1">Firma İsmi</label>
+      <input type="text" class="form-control" id="TerminalSehriControlInput1" placeholder="Terminal Şehri" formControlName="terminalSehri">
+    </div>
+
+    <div class="form-group">
+      <label for="TerminalAdresiControlInput1">Firma Adresi</label>
+      <input type="text" class="form-control" id="TerminalAdresiControlInput1" placeholder="Terminal Adresi" formControlName="terminalAdresi">
+    </div>
+
+    <div class="form-group">
+      <label for="YolcuKapasitesiControlInput1">Çalışan Sayısı</label>
+      <input type="text" class="form-control" id="YolcuKapasitesiControlInput1" placeholder="Yolcu Kapasitesi" formControlName="yolcuKapasitesi">
+    </div>
+
+    <div class="form-group">
+      <label for="KoordinatlariControlInput1">Otobüs Sayısı</label>
+      <input type="text" class="form-control" id="KoordinatlariControlInput1" placeholder="Koordinatlari" formControlName="koordinatlari">
+    </div>
+
+    <button type="submit" class="btn btn-primary">{{submitButtonText}}</button>
+  </form>
+</div>
+
+<p-dialog header="Firma Ayrıntıları" [(visible)]="displayTerminal" [style]="{width: '350px', minWidth:'200px'}" resizable="true">
+  <div clas="container-fluid" *ngIf="displayingTerminal">
+    <div class="row firma-row">
+      <div class="col">
+        <b>Terminal Şehri</b>
+      </div>
+      <div class="col">
+        {{displayingTerminal.terminalSehri}}
+      </div>
+    </div>
+
+    <div class="row kitap-row">
+      <div class="col">
+        <b>Terminal Adresi</b>
+      </div>
+      <div class="col">
+        {{displayingTerminal.terminalAdresi}}
+      </div>
+    </div>
+
+    <div class="row kitap-row">
+      <div class="col">
+        <b>Yolcu Kapasitesi</b>
+      </div>
+      <div class="col">
+        {{displayingTerminal.yolcuKapasitesi}}
+      </div>
+    </div>
+
+    <div class="row kitap-row">
+      <div class="col">
+        <b>Koordinatları</b>
+      </div>
+      <div class="col">
+        {{displayingTerminal.koordinatlari}}
+      </div>
+    </div>
+  </div>
+</p-dialog>
